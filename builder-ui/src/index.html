@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appops Builder</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="builder.css" />
+  <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Arvo&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link
+    href='https://fonts.googleapis.com/css?family=Arial|Noto Sans|Inconsolata|Inter|Montez|Caveat|Lobster|Lora|Josefin+Sans|Shadows+Into+Light|Pacifico|Amatic+SC:700|Orbitron:400,900|Rokkitt|Righteous|Dancing+Script:700|Bangers|Chewy|Sigmar+One|Architects+Daughter|Abril+Fatface|Covered+By+Your+Grace|Kaushan+Script|Gloria+Hallelujah|Satisfy|Lobster+Two:700|Comfortaa:700|Cinzel|Courgette'
+    rel='stylesheet' type='text/css'>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="builder-app">
+    <!---------------Builder header---------------------------------------->
+    <div class="builder-header">
+      <div class="builder-logo">
+        <p title="Appops Builder" id="logo">@.</p>
+
+      </div>
+      <div class="pages">
+        <p id="page">pages </p>
+
+      </div>
+      <div class="responsive-header">
+
+        <div style="color:lightgray"><i id="desk" title="Desktop" class="fa fa-desktop"></i></div>
+        <div style="color:lightgray"><i id="lap" title="Laptop" class="fa fa-laptop" style="color:lightgray"></i></div>
+
+        <div style="color:lightgray"><i id="mob" title="Mobile" class="fa fa-mobile" style="color:lightgray"></i></div>
+
+        <style>
+          .container {
+            display: flex;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            --locked-color: #5FADBF;
+            --unlocked-color: #FF5153;
+          }
+
+          .lock {
+            width: 20px;
+            height: 17px;
+            border: 3px solid var(--locked-color);
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+            -webkit-transition: all 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
+          }
+
+          .lock:after {
+            content: "";
+            display: block;
+            background: var(--locked-color);
+            width: 3px;
+            height: 7px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -3.5px 0 0 -2px;
+            -webkit-transition: all 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
+          }
+
+          .lock:before {
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            bottom: 100%;
+            position: absolute;
+            left: 50%;
+            margin-left: -8px;
+            border: 3px solid var(--locked-color);
+            border-top-right-radius: 50%;
+            border-top-left-radius: 50%;
+            border-bottom: 0;
+            -webkit-transition: all 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
+          }
+
+          /* Locked Hover */
+          .lock:hover:before {
+            height: 12px;
+          }
+
+          /* Unlocked */
+          .unlocked {
+            transform: rotate(10deg);
+          }
+
+          .unlocked:before {
+            bottom: 130%;
+            left: 31%;
+            margin-left: -11.5px;
+            transform: rotate(-45deg);
+          }
+
+          .unlocked,
+          .unlocked:before {
+            border-color: var(--unlocked-color);
+          }
+
+          .unlocked:after {
+            background: var(--unlocked-color);
+          }
+
+          /* Unlocked Hover */
+          .unlocked:hover {
+            transform: rotate(3deg);
+          }
+
+          .unlocked:hover:before {
+            height: 10px;
+            left: 40%;
+            bottom: 124%;
+            transform: rotate(-30deg);
+          }
+        </style>
+        <div class="container">
+          <span class="lock unlocked"></span>
+        </div>
+
+
+
+      </div>
+      <div class="left-header">
+        <div class="rotate"><i id="preview_eye" title="Preview" class="fa fa-eye" aria-hidden="true"
+            style="color:#a8eff5"></i></div>
+
+        <div style="color:white"> <i id="undo-btn" title="Undo" class="fas fa-undo" style="color:white"></i></div>
+        <div style="color:white"> <i id="redo-btn" title="Redo" class="fas fa-redo" style="color:white"></i></div>
+
+        <div class="keyboard-icon-wrap" style="color:white"><i id="keyboard-shortcut" title="Keyboard Shortcut"
+            class="fas fa-keyboard" style="color:white"></i></div>
+
+
+        <div class="custom-model-main">
+          <div class="custom-model-inner">
+            <!-- <div class="close-btn">×</div> -->
+            <div class="custom-model-wrap">
+              <div class="pop-up-content-wrap">
+                <ul><b>Copy/paste shortcuts</b></ul>
+                <br>
+                <li>Copy: Ctrl + C </li>
+                <li>Cut: Ctrl + X</li>
+                <li>Paste: Ctrl + V</li>
+                <li>Delete Element: Delete or Ctrl+ Delete</li>
+                <li> Select all Elements : Ctrl + A</li>
+                <br>
+                <br>
+
+                <ul><b>Device view shortcuts</b></ul>
+                <br>
+                <li>Desktop: 1</li>
+                <li>Tablet: 2</li>
+                <li>Mobile: 3</li>
+                <br>
+                <br>
+
+                <ul><b>Toolbar shortcuts</b></ul>
+                <br>
+                <li>Show Element Tree: Shift + E</li>
+                <li>Show Tools: Shift + T</li>
+                <br>
+                <br>
+                <br><br>
+                <div class="close-btn-wrap"><button class="close-btn">Got It</button></div>
+
+              </div>
+            </div>
+          </div>
+          <div class="bg-overlay"></div>
+        </div>
+
+
+
+
+      </div>
+      <div style="color:white"><i id="person-icon" class="far fa-user-circle" style="color:white"></i></div>
+    </div>
+    <div class="mid-container">
+      <div id="side-navbar"></div>
+      <div id="side-toolbar">
+        <div class="toolbar-header">
+          <div class="tools-pannel tools">
+            <p id="tool">Tools</p>
+          </div>
+          <div class="element-tree ">
+            <p id="element-tree-text">Element Tree</p>
+          </div>
+        </div>
+        <div class="toolbox-pannel">
+
+          <!-----------------Text Element----------------------->
+          <div class="all-tools">
+
+            <div class="element_Text"> Text
+            </div>
+            <br />
+            <!-----------------Button elements--------------------->
+            <div class="element_Button" draggable="true"> Button
+            </div>
+
+            <!-----------------Button elements--------------------->
+
+            <div class="element_container" draggable="true">Container
+            </div>
+
+
+            <div class="icon_container" draggable="true">Icon
+            </div>
+
+          </div>
+          <div class="element-tree-pannel" style="padding: 6px 0px 0px 4px;">
+            <div class="element-caption">Page index</div>
+          </div>
+        </div>
+      </div>
+      <!-------------------------- app body ---------------------------------------->
+      <app-design class="stage-designer" style="background-color:#fff"></app-design>
+
+      <!--------------------------------Property Editor-------------------------->
+      <property-editor id="property-editior">
+        <div class="tabs">
+
+          <div title="style" class="style-tab">
+            <i class="fa fa-paint-brush" aria-hidden="true" style="color:white"></i>
+          </div>
+
+          <div title="setting" class="element-setting-tab">
+            <i class="fa fa-cog" aria-hidden="true" style="color:white"></i>
+          </div>
+          <div title="Style Manager" class="style-manager">
+            <i class="fa fa-tint" aria-hidden="true" style="color:white"></i>
+
+          </div>
+        </div>
+        <div class="element-editor">
+          <div class="panel">
+
+            <!---------------------------    Selector    ---------------------->
+            <details>
+              <summary>
+                Selector
+              </summary>
+              <div class="selector-content">
+                <div class="selector-conatiner">
+                  <div
+                    style="grid-area: 1 / 1 / 2 / -1; width:11vw;align-items: stretch; background-color: #e0d9d9 ; border-radius: 2px;  border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                    <input id="selector-text" type="text" placeholder="selector"></input>
+                  </div>
+                </div>
+
+                <div class="text-editconatiner">
+                  <div class="textarea-conatiner">
+                    <textarea type="text" id="edit-text"></textarea>
+                  </div>
+                </div>
+              </div>
+
+            </details>
+
+            <!-------------------------------    Layout   --------------------------->
+
+            <details>
+              <summary>
+                Layout
+              </summary>
+              <div class="content">
+                <div>
+                  <div>
+                    <div class="layout-box" data-automation-id="SegmentedControl" aria-labelledby="sp-display">
+                      <div class="layout-block" aria-label="Block" cursor="default" tabindex="0">
+                        <div class="layout-block-wrap">
+                          <svg data-icon="DisplayBlock" aria-hidden="true" focusable="false" width="16" height="16"
+                            viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M2 4h12v8H2V4zm10 2H4v4h8V6z"
+                              fill="currentColor"></path>
+                            <path opacity=".6" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M2 1h12v1H2V1zm0 13h12v1H2v-1z" fill="currentColor"></path>
+                          </svg>
+                        </div>
+                      </div>
+                      <div>Block</div>
+
+                      <div class="layout-inline" aria-label="Inline" cursor="default" tabindex="0">
+                        <div class="layout-block-wrap">
+                          <svg data-icon="DisplayInline" aria-hidden="true" focusable="false" width="16" height="16"
+                            viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M2 4h12v8H2V4zm10 2H4v4h8V6z"
+                              fill="currentColor"></path>
+                            <path opacity=".6" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M1 2h1v12H1V2zm14 0h-1v12h1V2z" fill="currentColor"></path>
+                          </svg>
+                        </div>
+                      </div>
+                      <div>Inline</div>
+                    </div>
+
+                    <div class="layout-box2" data-automation-id="SegmentedControl" aria-labelledby="sp-display">
+                      <div class="layout-flex" aria-label="Flex" cursor="default" tabindex="0">
+                        <div class="layout-block-wrap">
+                          <svg data-icon="DisplayFlex" aria-hidden="true" focusable="false" width="16" height="16"
+                            viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M2 4h12v8H2V4zm10 2H4v4h8V6z"
+                              fill="currentColor"></path>
+                            <path opacity=".6" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M2 2h12v12H2V2zM1 1h14v14H1V1z" fill="currentColor"></path>
+                          </svg>
+                        </div>
+                      </div>
+                      <div>Flex</div>
+
+                      <div class="layout-grid" aria-label="Grid" cursor="default" tabindex="0">
+                        <div class="layout-block-wrap">
+                          <svg data-icon="DisplayGrid" aria-hidden="true" focusable="false" width="16" height="16"
+                            viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M2 4h12v8H2V4zm10 2H4v4h8V6z"
+                              fill="currentColor"></path>
+                            <path opacity=".6" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M4 4h3v3H4V4zm5 0h3v3H9V4zM5 9H4v3h3V9H5zm4 0h3v3H9V9z" fill="currentColor"></path>
+                          </svg>
+                        </div>
+                      </div>
+                      <div>Grid</div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </details>
+
+
+
+            <!------------------------------    Spacing  --------------------------->
+            <details>
+              <summary>
+                Spacing
+              </summary>
+
+              <div class="spacing-container">
+                <div class="spacing-outer">
+                  <div class="spacing-margin">
+                    <svg width="224" height="120" style="grid-area: 1 / 1 / -1 / -1;">
+                      <g>
+                        <g>
+                          <path cursor="n-resize" mode="delta" fill="currentColor" d="
+                                        m1,1
+                                        h223
+                                        l-36,24
+                                        h-151
+                                        l-36,-24z
+                                    " data-automation-id="margin-top-button" aria-label="Margin top button"
+                            style="color: rgb(125 125 125); cursor: n-resize;"></path>
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path cursor="e-resize" mode="delta" fill="currentColor" d="
+                                        m223,1
+                                        v119
+                                        l-36,-24
+                                        v-71
+                                        l36,-24z
+                                    " data-automation-id="margin-right-button" aria-label="Margin right button"
+                            style="color:rgb(145 145 145); cursor: e-resize;"></path>
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path cursor="s-resize" mode="delta" fill="currentColor" d="
+                                            m1,119
+                                            h223
+                                            l-36,-24
+                                            h-151
+                                            l-36,24z
+                                        " data-automation-id="margin-bottom-button" aria-label="Margin bottom button"
+                            style="color: rgb(125 125 125); cursor: s-resize;"></path>
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path cursor="w-resize" mode="delta" fill="currentColor" d="
+                                            m1,1
+                                            v119
+                                            l36,-24
+                                            v-71
+                                            l-36,-24z
+                                        " data-automation-id="margin-left-button" aria-label="Margin left button"
+                            style="color: rgb(145 145 145); cursor: w-resize;"></path>
+                        </g>
+                      </g>
+                      <clipPath id="margin-outer">
+                        <rect x="0" y="0" width="224" height="120" fill="transparent" rx="2" ry="2"
+                          style="pointer-events: none;"></rect>
+                      </clipPath>
+                      <rect clip-path="url(#margin-outer)" x="0" y="0" width="224" height="120" fill="transparent"
+                        rx="2" ry="2" style="pointer-events: none; stroke-width: 2px; stroke: rgb(54, 54, 54);"></rect>
+                      <clipPath id="margin-inner">
+                        <rect x="36" y="24" width="152" height="72" fill="transparent" rx="2" ry="2"
+                          style="pointer-events: none;"></rect>
+                      </clipPath>
+                      <rect clip-path="url(#margin-inner)" x="36" y="24" width="152" height="72" fill="transparent"
+                        rx="2" ry="2" style="pointer-events: none; stroke-width: 2px; stroke: rgb(54, 54, 54);"></rect>
+                    </svg>
+
+                    <input id="spacing-margin-top" type="number" placeholder="0" name="marginTop"></input>
+                    <input id="spacing-margin-right" type="number" placeholder="0" name="marginRight"></input>
+                    <input id="spacing-margin-bottom" type="number" placeholder="0" name="marginBottom"></input>
+                    <input id="spacing-margin-left" type="number" placeholder="0" name="marginLeft"></input>
+
+                  </div>
+                  <div class="spacing-padding">
+                    <svg width="144" height="64" style="grid-area: 1 / 1 / -1 / -1;">
+                      <g>
+                        <g>
+                          <path cursor="s-resize" mode="delta" fill="currentColor" d="
+                                        m1,1
+                                        h143
+                                        l-36,24
+                                        h-71
+                                        l-36,-24z
+                                    " data-automation-id="padding-top-button" aria-label="Padding top button"
+                            style="color: rgb(125 125 125); cursor: s-resize;"></path>
+                        </g>
+                      </g>
+
+                      <g>
+                        <g>
+                          <path cursor="w-resize" mode="delta" fill="currentColor" d="
+                                        m143,1
+                                        v63
+                                        l-36,-24
+                                        v-15
+                                        l36,-24z
+                                    " data-automation-id="padding-right-button" aria-label="Padding right button"
+                            style="color: rgb(145 145 145); cursor: w-resize;"></path>
+                        </g>
+                      </g>
+
+                      <g>
+                        <g>
+                          <path cursor="n-resize" mode="delta" fill="currentColor" d="
+                                            m1,63
+                                            h143
+                                            l-36,-24
+                                            h-71
+                                            l-36,24z
+                                        " data-automation-id="padding-bottom-button" aria-label="Padding bottom button"
+                            style="color:rgb(125 125 125); cursor: n-resize;"></path>
+                        </g>
+                      </g>
+
+                      <g>
+                        <g>
+                          <path cursor="e-resize" mode="delta" fill="currentColor" d="
+                                            m1,1
+                                            v63
+                                            l36,-24
+                                            v-15
+                                            l-36,-24z
+                                        " data-automation-id="padding-left-button" aria-label="Padding left button"
+                            style="color: rgb(145 145 145); cursor: e-resize;"></path>
+                        </g>
+                      </g>
+
+                      <clipPath id="padding-outer">
+                        <rect x="0" y="0" width="144" height="64" fill="transparent" rx="2" ry="2"
+                          style="pointer-events: none;"></rect>
+                      </clipPath>
+                      <rect clip-path="url(#padding-outer)" x="0" y="0" width="144" height="64" fill="transparent"
+                        rx="2" ry="2" style="pointer-events: none; stroke-width: 2px; stroke: rgb(54, 54, 54);"></rect>
+
+                      <clipPath id="padding-inner">
+                        <rect x="36" y="24" width="72" height="16" fill="transparent" rx="2" ry="2"
+                          style="pointer-events: none;"></rect>
+                      </clipPath>
+                      <rect clip-path="url(#padding-inner)" x="36" y="24" width="72" height="16" fill="transparent"
+                        rx="2" ry="2" style="pointer-events: none; stroke-width: 2px; stroke: rgb(54, 54, 54);"></rect>
+                    </svg>
+
+                    <input id="spacing-padding-top" type="number" placeholder="0" name="paddingTop"></input>
+                    <input id="spacing-padding-right" type="number" placeholder="0" name="paddingRight"></input>
+                    <input id="spacing-padding-bottom" type="number" placeholder="0" name="paddingBottom"></input>
+                    <input id="spacing-padding-left" type="number" placeholder="0" name="paddingLeft"></input>
+                    <div id="inner-space"></div>
+                  </div>
+                  <svg width="100%" height="100%"
+                    style="grid-area: 3 / 3 / span 3 / span 3; pointer-events: none;"><text x="6" y="4" fill="white"
+                      font-style="italic" font-weight="bold" font-size="8"
+                      dominant-baseline="hanging">PADDING</text></svg>
+                  <svg width="100%" height="100%" style="grid-area: 1 / 1 / -1 / -1; pointer-events: none;"><text x="6"
+                      y="4" fill="white" font-style="italic" font-weight="bold" font-size="8"
+                      dominant-baseline="hanging">MARGIN</text></svg>
+                </div>
+              </div>
+            </details>
+
+            <!-------------------------------    size  --------------------------->
+
+            <details>
+              <summary>
+                Size
+              </summary>
+              <div class="content">
+
+                <!-- width -->
+                <div>Width</div>
+                <div>
+                  <div style=" display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                    <div
+                      style="grid-area: 1 / 1 / 2 / -1; align-items: stretch; background-color: rgb(225, 217, 217);  border-radius: 2px;  border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                      <input id="edit-width" type="number"></input>
+                    </div>
+
+                    <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                      <select id="selection-unit-option-width">
+                        <option value="vh">VH</option>
+                        <option value="vw">VW</option>
+                        <option value="%">%</option>
+                        <option value="px">PX</option>
+                        <option value="em">EM</option>
+                        <option value="rem">REM</option>
+                        <option value="ch">CH</option>
+                        <option value="auto">Auto</option>
+                      </select>
+                      <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">vw</div> -->
+                    </div>
+
+
+
+                  </div>
+
+                </div>
+
+                <!-- Heigth -->
+                <div>Height</div>
+
+                <div>
+                  <div style=" display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                    <div
+                      style="grid-area: 1 / 1 / 2 / -1; align-items: stretch; background-color: rgb(225, 217, 217);  border-radius: 2px;  border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                      <input id="edit-height" type="number"></input>
+                    </div>
+
+                    <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                      <select id="selection-unit-option-height">
+                        <option value="vh">VH</option>
+                        <option value="vw">VW</option>
+                        <option value="%">%</option>
+                        <option value="px">PX</option>
+                        <option value="em">EM</option>
+                        <option value="rem">REM</option>
+                        <option value="ch">CH</option>
+                        <option value="auto">Auto</option>
+                      </select>
+                      <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">vh</div> -->
+                    </div>
+
+                  </div>
+                </div>
+
+
+
+                <!-- min  Width-->
+                <div>MinW</div>
+                <div>
+                  <div style=" display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                    <div
+                      style="grid-area: 1 / 1 / 2 / -1; align-items: stretch; background-color: rgb(225, 217, 217);  border-radius: 2px;  border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                      <input id="editmin-width" type="number"></input>
+                    </div>
+                    <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                      <select id="selection-unit-option-minw">
+                        <option value="vh">VH</option>
+                        <option value="vw">VW</option>
+                        <option value="%">%</option>
+                        <option value="px">PX</option>
+                        <option value="em">EM</option>
+                        <option value="rem">REM</option>
+                        <option value="ch">CH</option>
+                        <option value="auto">Auto</option>
+                      </select>
+                      <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">px</div> -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- min  Heigth-->
+                <div>MinH</div>
+                <div>
+                  <div style=" display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                    <div
+                      style="grid-area: 1 / 1 / 2 / -1; align-items: stretch; background-color: rgb(225, 217, 217);  border-radius: 2px;  border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                      <input id="editmin-height" type="number"></input>
+                    </div>
+                    <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                      <select id="selection-unit-option-minh">
+                        <option value="vh">VH</option>
+                        <option value="vw">VW</option>
+                        <option value="%">%</option>
+                        <option value="px">PX</option>
+                        <option value="em">EM</option>
+                        <option value="rem">REM</option>
+                        <option value="ch">CH</option>
+                        <option value="auto">Auto</option>
+                      </select>
+                      <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">px</div> -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- max  Width-->
+                <div>MaxW</div>
+                <div>
+                  <div style=" display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                    <div
+                      style="grid-area: 1 / 1 / 2 / -1; align-items: stretch; background-color: rgb(225, 217, 217);  border-radius: 2px;  border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                      <input id="editmax-weight" type="text"></input>
+                    </div>
+                    <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                      <select id="selection-unit-option-maxw">
+                        <option value="vh">VH</option>
+                        <option value="vw">VW</option>
+                        <option value="%">%</option>
+                        <option value="px">PX</option>
+                        <option value="em">EM</option>
+                        <option value="rem">REM</option>
+                        <option value="ch">CH</option>
+                        <option value="auto">Auto</option>
+                      </select>
+                      <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">px</div> -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- max  Heigth-->
+                <div>MaxH</div>
+                <div>
+                  <div style=" display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                    <div
+                      style="grid-area: 1 / 1 / 2 / -1; align-items: stretch; background-color: rgb(225, 217, 217);  border-radius: 2px;  border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                      <input id="editmax-height" type="text"></input>
+                    </div>
+                    <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                      <select id="selection-unit-option-maxh">
+                        <option value="vh">VH</option>
+                        <option value="vw">VW</option>
+                        <option value="%">%</option>
+                        <option value="px">PX</option>
+                        <option value="em">EM</option>
+                        <option value="rem">REM</option>
+                        <option value="ch">CH</option>
+                        <option value="auto">Auto</option>
+                      </select>
+                      <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">px</div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!------------------------ ---   Typography   --------------------------->
+
+            <details>
+              <summary>
+                Typography
+              </summary>
+              <div class="content">
+                <div>
+                  <div class="font-family-conatiner">
+                    <div>Font</div>
+                    <div styel="grid-column:2/-1">
+                      <div>
+                        <div id="fontfamily" aria-expanded="false" aria-haspopup="listbox" tabindex="0">
+                          <select id='select' onChange="return fontChange();"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <script>
+                      var fonts = ["Arial", "Noto Sans", "Inter", "Montez", "Lobster", "Inconsolata", "Caveat", "Lora", "Josefin Sans", "Shadows Into Light", "Pacifico", "Amatic SC", "Orbitron", "Rokkitt", "Righteous", "Dancing Script", "Bangers", "Chewy", "Sigmar One", "Architects Daughter", "Abril Fatface", "Covered By Your Grace", "Kaushan Script", "Gloria Hallelujah", "Satisfy", "Lobster Two", "Comfortaa", "Cinzel", "Courgette"];
+                      var string = "";
+                      var select = document.getElementById("select")
+                      for (var a = 0; a < fonts.length; a++) {
+                        var opt = document.createElement('option');
+                        opt.setAttribute("style", "background-color:lightgray;")
+                        opt.value = opt.innerHTML = fonts[a];
+                        opt.style.fontFamily = fonts[a];
+                        select.add(opt);
+                      }
+                      function fontChange() {
+                        var x = document.getElementById("select").selectedIndex;
+                        var y = document.getElementById("select").options;
+                        document.body.insertAdjacentHTML("beforeend", "<style> #text{ font-family:'" + y[x].text + "'; }" +
+                          "#select{font-family:'" + y[x].text + "';</style>");
+                        var tl = new TimelineLite,
+                          mySplitText = new SplitText("#h1", { type: "words,chars" }),
+                          chars = mySplitText.chars;
+                        //an array of all the divs that wrap each character
+                        TweenLite.set("#h1", { perspective: 400 });
+                        tl.staggerFrom(chars, 0.2, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: "0% 50% -50", ease: Back.easeOut }, 0.01, "+=0");
+                        var t2 = new TimelineLite,
+                          mySplitText2 = new SplitText("#h2", { type: "words,chars" }),
+                          chars = mySplitText2.chars;
+                        //an array of all the divs that wrap each character
+                        TweenLite.set("#h2", { perspective: 400 });
+                        t2.staggerFrom(chars, 0.2, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: "0% 100% -50", ease: Back.easeOut }, 0.01, "+=0");
+                        var t3 = new TimelineLite,
+                          mySplitText3 = new SplitText("#h3", { type: "words,chars" }),
+                          chars = mySplitText3.chars;
+                        //an array of all the divs that wrap each character
+                        TweenLite.set("#h3", { perspective: 400 });
+                        t3.staggerFrom(chars, 0.2, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: "0% 150% -50", ease: Back.easeOut }, 0.01, "+=0");
+                        var t4 = new TimelineLite,
+                          mySplitText4 = new SplitText("#h4", { type: "words,chars" }),
+                          chars = mySplitText4.chars;
+                        //an array of all the divs that wrap each character
+                        TweenLite.set("#h4", { perspective: 400 });
+                        t4.staggerFrom(chars, 0.2, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: "0% 200% -50", ease: Back.easeOut }, 0.01, "+=0");
+                        var t5 = new TimelineLite,
+                          mySplitText5 = new SplitText("#standard", { type: "words,chars" }),
+                          chars = mySplitText5.chars;
+                        //an array of all the divs that wrap each character
+                        TweenLite.set("#standard", { perspective: 400 });
+                        t5.staggerFrom(chars, 0.2, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: "0% 250% -50", ease: Back.easeOut }, 0.01, "+=0");
+                      }
+                      TweenLite.to(page, 0, { top: "-100vh", ease: Bounce.easeOut, delay: 0 });
+                      TweenLite.to(page, 1, { top: "0vh", ease: Elastic.easeOut, delay: 1 });
+                      fontChange();
+                    </script>
+
+                    <div>Weight</div>
+                    <div styel="grid-column:2/-1">
+                      <select id="select-weight">
+                        <option selected="selected">400</option>
+                        <option>100 </option>
+                        <option>200</option>
+                        <option>300</option>
+                        <option>500 </option>
+                        <option>600</option>
+                        <option>700 </option>
+                        <option>800</option>
+                        <option>900 </option>
+
+                      </select>
+                    </div>
+
+                    <!-- fontcolor -->
+                    <div>Color</div>
+
+                    <div style="display:flex">
+                      <div><input type="color" id="font-colorpicker" name="color" value="#a8eff5"> </input></div>
+                      <input type="text" id="font-color" value="#a8eff5"></input>
+                    </div>
+
+                    <div>Size</div>
+                    <div style="grid-column: 2 / span 1;">
+                      <div>
+                        <div
+                          style="display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                          <div class="font-size-container">
+                            <input id="font-size" name="fontSize" type="number">
+                          </div>
+                          <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                            <select id="selection-unit-option-fontsize">
+                              <option value="vh">VH</option>
+                              <option value="vw">VW</option>
+                              <option value="%">%</option>
+                              <option value="px">PX</option>
+                              <option value="em">EM</option>
+                              <option value="rem">REM</option>
+                              <option value="ch">CH</option>
+                              <option value="auto">Auto</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </details>
+
+            <!---------------------------     Background   --------------------------->
+
+            <details>
+              <summary>
+                Background
+              </summary>
+              <div class="content">
+                <div>Color</div>
+                <div style="display:flex">
+                  <div><input type="color" id="colorPicker" name="color" value="#a8eff5"> </input></div>
+                  <input type="text" id="background-color" value="#a8eff5"></input>
+                </div>
+
+              </div>
+
+
+            </details>
+
+
+            <!---------------------------     Border   ------------------------------>
+
+            <details>
+              <summary>
+                Border
+              </summary>
+              <div class="content">
+
+
+                <div class="outer-border-conatiner">
+                  <div class="border-conatiner">
+                    <div class="radius" name="borderRadius">Radius</div>
+                    <div style="grid-column: 2 / span 1;">
+                      <div>
+                        <div
+                          style="display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                          <div
+                            style="grid-area: 1 / 1 / 2 / -1; align-items: stretch;width:3vw; background-color:  rgb(217, 217, 217); border-color: rgb(170, 168, 168); border-radius: 2px; border-style: solid; border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                            <input id="border-radius" name="fontSize" type="number"
+                              style="background-color: transparent; border-color: transparent; border-radius: 2px; border-style: solid; border-width: 0px; color: inherit; cursor: auto; display: block; height: 100%; line-height: 1; outline: transparent solid 2px; padding: 0px 20px 0px 4px; width: 74%;">
+
+                          </div>
+                          <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                            <select id="selection-unit-option-radius">
+                              <option value="vh">VH</option>
+                              <option value="vw">VW</option>
+                              <option value="%">%</option>
+                              <option value="px">PX</option>
+                              <option value="em">EM</option>
+                              <option value="rem">REM</option>
+                              <option value="ch">CH</option>
+                              <option value="auto">Auto</option>
+                            </select>
+                            <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">px</div> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style="height: 0px;overflow: visible;margin-left: -8px;margin-right: -8px;grid-column: 1 / -1;">
+                      <div style="background-color: rgb(54, 54, 54); height: 1px; width: 100%"></div>
+                    </div>
+                    <div style="grid-column: 1 / -1">
+                      <div>
+                        <div
+                          style="align-items: center;box-sizing: border-box;display: grid;gap: 8px 19px;grid-column: 1 / -1;grid-template-columns: auto auto;padding: 0px;">
+                          <div name="border">Borders</div>
+                          <!-- <div style="grid-column: 1 / 2">
+                <div
+                  style="
+                    align-items: center;
+                    box-sizing: border-box;
+                    display: grid;
+                    gap: 8px;
+                  "
+                >
+                  <div
+                    theme="[object Object]"
+                    style="
+                      cursor: default;
+                      user-select: none;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      font-size: 11px;
+                      font-family: Inter, -apple-system, BlinkMacSystemFont,
+                        'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+                        'Helvetica Neue', Helvetica, Arial, 'Apple Color Emoji',
+                        'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+                      font-weight: 400;
+                      line-height: 12px;
+                      letter-spacing: -0.2px;
+                      display: inline;
+                      color: rgb(235, 235, 235);
+                      background: transparent;
+                      padding: 2px;
+                      margin-left: -2px;
+                      border-radius: 2px;
+                      max-width: 100%;
+                      box-sizing: content-box;
+                      justify-self: center;
+                      position: relative;
+                      opacity: 1;
+                      border-style: solid;
+                      border-width: 1px;
+                      border-color: transparent;
+                      box-shadow: transparent 0px 0px 0px 2px;
+                      grid-column-start: 2;
+                      grid-row-start: 1;
+                    "
+                  >
+                    <svg
+                      data-icon="BorderTop"
+                      aria-hidden="true"
+                      focusable="false"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      class="bem-Svg"
+                      style="display: block"
+                    >
+                      <path
+                        opacity=".4"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12 5v7H4V5H2v9h12V5h-2z"
+                        fill="currentColor"
+                      ></path>
+                      <path fill="currentColor" d="M14 2v2H2V2z"></path>
+                    </svg>
+                  </div>
+                  <div
+                    theme="[object Object]"
+                    style="
+                      cursor: default;
+                      user-select: none;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      font-size: 11px;
+                      font-family: Inter, -apple-system, BlinkMacSystemFont,
+                        'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+                        'Helvetica Neue', Helvetica, Arial, 'Apple Color Emoji',
+                        'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+                      font-weight: 400;
+                      line-height: 12px;
+                      letter-spacing: -0.2px;
+                      display: inline;
+                      color: rgb(235, 235, 235);
+                      background: transparent;
+                      padding: 2px;
+                      margin-left: -2px;
+                      border-radius: 2px;
+                      max-width: 100%;
+                      box-sizing: content-box;
+                      justify-self: center;
+                      position: relative;
+                      opacity: 1;
+                      border-style: solid;
+                      border-width: 1px;
+                      border-color: transparent;
+                      box-shadow: transparent 0px 0px 0px 2px;
+                      grid-column-start: 3;
+                      grid-row-start: 2;
+                    "
+                  >
+                    <svg
+                      data-icon="BorderRight"
+                      aria-hidden="true"
+                      focusable="false"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      class="bem-Svg"
+                      style="display: block"
+                    >
+                      <path
+                        opacity=".4"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M11 4H4v8h7v2H2V2h9v2z"
+                        fill="currentColor"
+                      ></path>
+                      <path fill="currentColor" d="M14 2h-2v12h2z"></path>
+                    </svg>
+                  </div>
+                  <div
+                    theme="[object Object]"
+                    style="
+                      cursor: default;
+                      user-select: none;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      font-size: 11px;
+                      font-family: Inter, -apple-system, BlinkMacSystemFont,
+                        'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+                        'Helvetica Neue', Helvetica, Arial, 'Apple Color Emoji',
+                        'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+                      font-weight: 400;
+                      line-height: 12px;
+                      letter-spacing: -0.2px;
+                      display: inline;
+                      color: rgb(138, 194, 255);
+                      background: rgba(0, 132, 255, 0.18);
+                      padding: 2px;
+                      margin-left: -2px;
+                      border-radius: 2px;
+                      max-width: 100%;
+                      box-sizing: content-box;
+                      justify-self: center;
+                      position: relative;
+                      opacity: 1;
+                      border-style: solid;
+                      border-width: 1px;
+                      border-color: transparent;
+                      box-shadow: rgba(0, 132, 255, 0.18) 0px 0px 0px 2px;
+                      grid-column-start: 2;
+                      grid-row-start: 3;
+                    "
+                  >
+                    <svg
+                      data-icon="BorderBottom"
+                      aria-hidden="true"
+                      focusable="false"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      class="bem-Svg"
+                      style="display: block"
+                    >
+                      <path
+                        opacity=".4"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M4 11V4h8v7h2V2H2v9h2z"
+                        fill="currentColor"
+                      ></path>
+                      <path fill="currentColor" d="M2 14v-2h12v2z"></path>
+                    </svg>
+                  </div>
+                  <div
+                    theme="[object Object]"
+                    style="
+                      cursor: default;
+                      user-select: none;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      font-size: 11px;
+                      font-family: Inter, -apple-system, BlinkMacSystemFont,
+                        'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+                        'Helvetica Neue', Helvetica, Arial, 'Apple Color Emoji',
+                        'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+                      font-weight: 400;
+                      line-height: 12px;
+                      letter-spacing: -0.2px;
+                      display: inline;
+                      color: rgb(235, 235, 235);
+                      background: transparent;
+                      padding: 2px;
+                      margin-left: -2px;
+                      border-radius: 2px;
+                      max-width: 100%;
+                      box-sizing: content-box;
+                      justify-self: center;
+                      position: relative;
+                      opacity: 1;
+                      border-style: solid;
+                      border-width: 1px;
+                      border-color: transparent;
+                      box-shadow: transparent 0px 0px 0px 2px;
+                      grid-column-start: 1;
+                      grid-row-start: 2;
+                    "
+                  >
+                    <svg
+                      data-icon="BorderLeft"
+                      aria-hidden="true"
+                      focusable="false"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      class="bem-Svg"
+                      style="display: block"
+                    >
+                      <path
+                        opacity=".4"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5 4h7v8H5v2h9V2H5v2z"
+                        fill="currentColor"
+                      ></path>
+                      <path fill="currentColor" d="M2 2h2v12H2z"></path>
+                    </svg>
+                  </div>
+                  <div
+                    theme="[object Object]"
+                    style="
+                      cursor: default;
+                      user-select: none;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      font-size: 11px;
+                      font-family: Inter, -apple-system, BlinkMacSystemFont,
+                        'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+                        'Helvetica Neue', Helvetica, Arial, 'Apple Color Emoji',
+                        'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+                      font-weight: 400;
+                      line-height: 12px;
+                      letter-spacing: -0.2px;
+                      display: inline;
+                      color: rgb(235, 235, 235);
+                      background: rgb(43, 43, 43);
+                      padding: 2px;
+                      margin-left: -2px;
+                      border-radius: 2px;
+                      max-width: 100%;
+                      box-sizing: content-box;
+                      justify-self: center;
+                      position: relative;
+                      opacity: 1;
+                      border-style: solid;
+                      border-width: 1px;
+                      border-color: transparent;
+                      box-shadow: rgb(43, 43, 43) 0px 0px 0px 2px;
+                      grid-column-start: 2;
+                      grid-row-start: 2;
+                    "
+                  >
+                    <svg
+                      data-icon="BorderAll"
+                      aria-hidden="true"
+                      focusable="false"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      class="bem-Svg"
+                      style="display: block"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M14 2H2v12h12V2zm-2 2H4v8h8V4z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+              </div> -->
+                          <div style="
+                  align-items: center;
+                  box-sizing: border-box;
+                  display: grid;
+                  gap: 8px;
+                  grid-template-columns: auto 1fr;
+                ">
+                            <div name="borderStyle">Style </div>
+                            <div data-automation-id="SegmentedControl"
+                              style="position: relative;flex-basis: 100%; display: grid;grid-auto-flow: column;grid-auto-columns: 1fr;column-gap: 1px;background: rgb(54, 54, 54);border-radius: 2px;box-shadow: rgb(54, 54, 54) 0px 0px 0px 1px inset;">
+                              <div class="style-container" value="none" cursor="default" tabindex="0">
+                                <div class="border-none">
+                                  <svg data-icon="Cross" aria-hidden="true" focusable="false" width="16" height="16"
+                                    viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M9.414 8l3.293-3.293-1.414-1.414L8 6.586 4.707 3.293 3.293 4.707 6.586 8l-3.293 3.293 1.414 1.414L8 9.414l3.293 3.293 1.414-1.414L9.414 8z"
+                                      fill="currentColor"></path>
+                                  </svg>
+                                </div>
+                              </div>
+                              <div class="border-solid-container" tooltip="Solid" icon="[object Object]" value="solid"
+                                cursor="default" tabindex="0">
+                                <div class="border-solid">
+                                  <svg data-icon="BorderStyleSolid" aria-hidden="true" focusable="false" width="16"
+                                    height="16" viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                                    <path fill="currentColor" d="M1 7h14v2H1z"></path>
+                                  </svg>
+                                </div>
+                              </div>
+                              <div class="border-dashed-container" aria-label="Dashed" tooltip="Dashed"
+                                icon="[object Object]" value="dashed" cursor="default" tabindex="0">
+                                <div class="border-dashed">
+                                  <svg data-icon="BorderStyleDashed" aria-hidden="true" focusable="false" width="16"
+                                    height="16" viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                                    <path fill="currentColor" d="M0 7h4v2H0zm6 0h4v2H6zm6 0h4v2h-4z"></path>
+                                  </svg>
+                                </div>
+                              </div>
+                              <div class="border-dotted-container" aria-label="Dotted" tooltip="Dotted"
+                                icon="[object Object]" value="dotted" cursor="default" tabindex="0">
+                                <div class="border-dotted">
+                                  <svg data-icon="BorderStyleDotted" aria-hidden="true" focusable="false" width="16"
+                                    height="16" viewBox="0 0 16 16" class="bem-Svg" style="display: block">
+                                    <path fill="currentColor" d="M1 7h2v2H1zm4 0h2v2H5zm4 0h2v2H9zm4 0h2v2h-2z"></path>
+                                  </svg>
+                                </div>
+                              </div>
+                            </div>
+                            <div name="borderWidth">Width</div>
+                            <div style="grid-column: 2 / span 1;">
+                              <div>
+                                <div
+                                  style="display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                                  <div
+                                    style="grid-area: 1 / 1 / 2 / -1; align-items: stretch;width:5vw; background-color:  rgb(217, 217, 217); border-color: rgb(170, 168, 168); border-radius: 2px; border-style: solid; border-width: 1px; display: flex; flex: 0 1 auto; height: 24px; position: relative;">
+                                    <input id="border-width" name="fontSize" type="number"
+                                      style="background-color: transparent; border-color: transparent; border-radius: 2px; border-style: solid; border-width: 0px; color: inherit; cursor: auto; display: block; height: 100%; line-height: 1; outline: transparent solid 2px; padding: 0px 20px 0px 4px; width: 100%;">
+                                  </div>
+                                  <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                                    <select id="selection-unit-option-borderwidth">
+                                      <option value="vh">VH</option>
+                                      <option value="vw">VW</option>
+                                      <option value="%">%</option>
+                                      <option value="px">PX</option>
+                                      <option value="em">EM</option>
+                                      <option value="rem">REM</option>
+                                      <option value="ch">CH</option>
+                                      <option value="auto">Auto</option>
+                                    </select>
+                                    <!-- <div style="justify-self: start; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">px</div> -->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="border-color" name="borderColor">Color </div>
+                            <div style="display: flex">
+                              <input type="color" id="border-colorpicker" name="color" value="#a8eff5">
+                              <input type="text" id="border-color" value="#a8eff5"></input>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="height: 1px; width: 100%; border-bottom: 1px solid rgb(33, 33, 33)"></div>
+                </div>
+
+
+
+
+              </div>
+
+            </details>
+
+
+            <!-----------------------------     Effects    ------------------------------------>
+
+            <details>
+              <summary>
+                Icon Appearance
+              </summary>
+
+
+              <div class="content">
+                <div>Pick Icon</div>
+                <div style="display:flex">
+                  <div id="show-icon">
+                    <button id="btn-icon"></button>
+                  </div>
+                  <div class="icon-body">
+                    <div clas="editor iconpicker">
+                      <input id="button-caption"></input>
+                    </div>
+                  </div>
+
+                  <div class=" icon_palette ">
+
+                    <div class="fa fa-home"></div>&nbsp;&nbsp;
+                    <div class="fas fa-address-book"></div>&nbsp;&nbsp;
+                    <div class="fa fa-bar-chart"></div>&nbsp;&nbsp;
+                    <div class="fas fa-undo"></div>&nbsp;&nbsp;
+                    <div class="fa fa-battery-empty"></div>&nbsp;&nbsp;
+                    <div class="fa fa-check"></div>&nbsp;&nbsp;
+                    <div class="fa fa-bookmark"></div>&nbsp;&nbsp;
+                    <div class=" fa fa-close"></div>&nbsp;&nbsp;
+                    <div class="fa fa-cloud-download"></div>&nbsp;&nbsp;
+                    <div class="	fa fa-cloud-upload"></div>&nbsp;&nbsp;
+                    <div class="fa fa-commenting-o"></div>&nbsp;&nbsp;
+                    <div class="fa fa-desktop"></div>&nbsp;&nbsp;
+                    <div class="fa fa-envelope"></div>&nbsp;&nbsp;
+                    <div class="fa fa-external-link"></div>&nbsp;&nbsp;
+                    <div class="fa fa-exclamation"></div>&nbsp;&nbsp;
+                    <div class="fa fa-eye-slash"></div>&nbsp;&nbsp;
+                    <div class="fa fa-heart"></div>&nbsp;&nbsp;
+                    <div class="fa fa-info"></div>&nbsp;&nbsp;
+                    <div class="fa fa-location-arrow"></div>&nbsp;&nbsp;
+                    <div class="fa fa-mail-forward"></div>&nbsp;&nbsp;
+                    <div class="fa fa-cog"></div>&nbsp;&nbsp;
+                    <div class="far fa-user-circle"></div>&nbsp;&nbsp;
+
+                    <div class="fa fa-leaf"></div>&nbsp;&nbsp;
+                    <div class="fa fa-mouse-pointer"></div>&nbsp;&nbsp;
+                    <div class="fa fa-search"></div>&nbsp;&nbsp;
+                    <div class="fa fa-share-alt"></div>&nbsp;&nbsp;
+                    <div class="fa fa-power-off"></div>&nbsp;&nbsp;
+                    <div class="fa fa-question"></div>&nbsp;&nbsp;
+
+                    <div class="fa fa-sort-asc"></div>&nbsp;&nbsp;
+                    <div class="fa fa-sort-desc"></div>&nbsp;&nbsp;
+                    <div class="fa fa-star"></div>&nbsp;&nbsp;
+                    <div class="fa fa-thumbs-up"></div>&nbsp;&nbsp;
+                    <div class="fa fa-thumbs-down"></div>&nbsp;&nbsp;
+                    <div class="fa fa-warning"></div>&nbsp;&nbsp;
+                    <div class="fa fa-university"></div>&nbsp;&nbsp;
+                    <div class="fa fa-users"></div>&nbsp;&nbsp;
+
+                    <div class="fa fa-user-plus"></div>&nbsp;&nbsp;
+                    <div class="fa fa-wifi"></div>&nbsp;&nbsp;
+                    <div class="fa fa-pencil"></div>&nbsp;&nbsp;
+                    <div class="fa fa-history"></div>&nbsp;&nbsp;
+                  </div>
+                </div>
+              </div>
+
+              <div class="content">
+                <div>Icon Color</div>
+
+                <div style="display:flex">
+                  <div><input type="color" id="icon-colorpicker" name="color" value="#a8eff5"> </input></div>
+                  <input type="text" id="icon-color" value="#a8eff5"></input>
+                </div>
+              </div>
+
+              <div class="content">
+                <div>Icon Size</div>
+                <div style="grid-column: 2 / span 1;">
+                  <div>
+                    <div style="display: grid; grid-template-columns: 1fr auto; transform: translate3d(0px, 0px, 0px);">
+                      <div class="font-size-container">
+                        <input id="icon-size" name="fontSize" type="number">
+                      </div>
+                      <div id="width-unitSelect" aria-expanded="false" aria-haspopup="listbox">
+                        <select id="selection-unit-option-fontsize">
+                          <option value="vh">VH</option>
+                          <option value="vw">VW</option>
+                          <option value="%">%</option>
+                          <option value="px">PX</option>
+                          <option value="em">EM</option>
+                          <option value="rem">REM</option>
+                          <option value="ch">CH</option>
+                          <option value="auto">Auto</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </details>
+
+        </div>
+
+    </div>
+    </property-editor>
+
+  </div>
+  </div>
+  <!-- <div class="footer">
+    <p>Made with Love @AinoSoft</p>
+  </div> -->
+  </div>
+</body>
+
+</html>

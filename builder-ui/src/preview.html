@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Arial|Noto Sans|Inconsolata|Inter|Montez|Caveat|Lobster|Lora|Josefin+Sans|Shadows+Into+Light|Pacifico|Amatic+SC:700|Orbitron:400,900|Rokkitt|Righteous|Dancing+Script:700|Bangers|Chewy|Sigmar+One|Architects+Daughter|Abril+Fatface|Covered+By+Your+Grace|Kaushan+Script|Gloria+Hallelujah|Satisfy|Lobster+Two:700|Comfortaa:700|Cinzel|Courgette' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+   
+    <title>Preview</title>
+    <!-- <script src="Preview.ts"></script> -->
+    <script>
+        
+        // const url = 'http://213.133.103.90:3000/builderdb/';
+        const url ="http://localhost:3000/builderdb/"
+        $.get(url, function(data){
+            
+            let lastPageState =(data[data.length-1]).htmlelement;
+            let newElement = new DOMParser().parseFromString(lastPageState, "text/html");
+            let previewDocument = document.getElementsByClassName("preview-page")[0];
+            let element = ( newElement.documentElement.childNodes[1].firstChild) ;
+            // element.style.height= 97 + 'vh';
+            // element.style.width= 99 + 'vw';
+            element.style.position= "absolute";
+            document.body.appendChild(element);
+        });
+    </script>
+
+</head>
+<style>
+    
+</style>
+<body class="preview-page" style="height:100% ; width:100%" >
+</body>
+</html>
