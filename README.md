@@ -5,7 +5,7 @@
    
    **Keyboard Shortcut:**
    
-     Ctrl + h : Keyboard Shortcut Panel.
+     Shift + h : Keyboard Shortcut Panel.
      
    **Link of Builder:**
    
